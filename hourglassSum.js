@@ -9,7 +9,7 @@
 
 
 function hourglassSum(arr) {
-    var max = 0
+    var max = -10000
     for( var i = 0; i < arr.length; i++){
         for( var j = 0; j < arr.length; j++){
             if((i !== 0) && (j !== 0) && (j !== 5) && (i !== 5)) {
