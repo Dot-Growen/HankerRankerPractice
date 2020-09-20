@@ -1,61 +1,42 @@
-// SOLVED BUT INEFFICIENT
-
-// 8. Starting with a 1-indexed array of zeros and a list of operations, for each operation add a value to each of the array element between two given indices, inclusive. Once all operations have been performed, return the maximum value in your array. (NOT DONE)
+// Starting with a 1-indexed array of zeros and a list of operations, for each operation add a value to each of the array element between two given indices, inclusive. Once all operations have been performed, return the maximum value in your array. (NOT DONE)
 
 // create a array the n zeros
-
-
+// SOLVED BUT INEFFICIENT (fail at one millions value)
 
 function arrayManipulation(n, queries) {
-    var zeros = []
-    for (var i = 0; i < n; i++) {
-        zeros.push(0)
-    }
-    var w = 2
-    var x = 0
-    var y = 0
-    var z = 1
-    function row(s) {
-        if (s === 0) {
-            return Math.max(...zeros)
-        } else {
-            for (var j = queries[x][y]; j <= queries[x][z]; j++) {
-                zeros[j - 1] += queries[x][w]
-            }
-            x++
-            return row(s - 1)
+
+    let outputArray = Array(n + 1)
+    let maxValue = 0
+
+    for( let [start, end, value] of queries) {
+        outputArray[start - 1] = outputArray[start - 1] || 0
+        outputArray[end] = outputArray[end] || 0
+        outputArray[start - 1] += value
+        outputArray[end] -= value
+    };
+    let currentSum = 0
+    outputArray = outputArray.slice(0, n)
+    for (let i of outputArray) {
+        console.log(outputArray)
+        if (i) {
+            currentSum += i
+            maxValue = Math.max(currentSum, maxValue)
         }
     }
-    row(queries.length)
-    return Math.max(...zeros)
+    return maxValue
 }
 
-console.log(arrayManipulation(5, [[1, 2, 100],
-[2, 5, 100],
-[3, 4, 100]
-])
-)
+console.log(arrayManipulation(5, [
+    [1, 2, 100],
+    [2, 5, 100],
+    [3, 4, 100]
+]))
 
-        // queries[0][0]
-        // queries[1][0]
-        // queries[2][0]
+// [[1, 2, 100],
+//  [2, 5, 100],
+//  [3, 4, 100]]
 
-                    // queries[0][1]
-                    // queries[1][1]
-                    // queries[2][1]
+//  q[0][0]   q[0][1]  q[0][2]
+//  q[1][0]   q[1][1]  q[1][2]
+//  q[2][0]   q[2][1]  q[2][2]
 
-                                // queries[0][2]
-                                // queries[1][2]
-                                // queries[2][2]
-
-    // Quadratic time complexity
-
-    // for (var i = 0; i < queries.length; i++) {
-    //     for (var j = queries[x][y]; j <= queries[x][z]; j++) {
-    //         console.log(x, y)
-    //         zeros[j - 1] += queries[x][w]
-    //     }
-
-    //     x++
-    // }
-    // return Math.max(...zeros)
